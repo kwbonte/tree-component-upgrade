@@ -1,0 +1,8 @@
+<p>tree-with-auto-expand works!</p>
+<tree-root #treeComponent [nodes]="nodes" [options]="options">
+  <ng-template #treeNodeTemplate let-node>
+    <span>
+      <label for="{{node.data.label}}">{{node.data.label}} </label>
+    </span>
+  </ng-template>
+</tree-root>

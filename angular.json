@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/angular-tree-component/dist/angular-tree-component.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -124,6 +125,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "tree-component-upgrade"
 }
