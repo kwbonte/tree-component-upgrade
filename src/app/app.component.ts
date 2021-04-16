@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'tree-component-upgrade';
+  title = 'Upgrading to Circlon attempt';
 }
