@@ -15,6 +15,7 @@ export class TreeWithAutoExpandComponent implements OnInit {
   public get treeComponent(): TreeComponent {
     return this._treeComponent;
   }
+  // Here is where auto expansion is happening
   public set treeComponent(v: TreeComponent) {
     if (this._treeComponent === v) {
       return;
@@ -31,12 +32,12 @@ export class TreeWithAutoExpandComponent implements OnInit {
     displayField: 'label',
   };
 
-
-
   constructor() { }
 
   ngOnInit() {
-    this.infographicKey = 1123;
+    // This is the key that we will be auto epanding to. On load one should see Cenozoic (level 0) -> Quaternary (level 1) -> Holocene & Pleistocene (on same level 2)
+    this.infographicKey = 112;
+    // This is a cut down object that represents a tree for selecting geologic epochs and is representative of many trees in our app
     this.nodes = [
       new ParameterChoiceNode({
         label: 'Cenozoic', code: 1, isSelected: true, showInfographics: true, infographicsKey: 1, color: null, children: [
@@ -73,11 +74,10 @@ export class TreeWithAutoExpandComponent implements OnInit {
         ]
       }),
     ]
-
   }
-
 }
 
+// This interface and class are api objects sent from a dotnet world via nswag, the full object is used in the demo above specifically because we are expanding the tree on load based on the infographics key that is selected.
 export interface IParameterChoiceNode {
   label?: string | undefined;
   code: number;
@@ -104,51 +104,5 @@ export class ParameterChoiceNode implements IParameterChoiceNode {
           (<any>this)[property] = (<any>data)[property];
       }
     }
-  }
-
-  init(_data?: any) {
-    if (_data) {
-      this.label = _data["Label"];
-      this.code = _data["Code"];
-      this.isSelected = _data["IsSelected"];
-      this.showInfographics = _data["ShowInfographics"];
-      this.infographicsKey = _data["InfographicsKey"];
-      this.color = _data["Color"];
-      if (Array.isArray(_data["Children"])) {
-        this.children = [] as any;
-        for (let item of _data["Children"])
-          this.children!.push(ParameterChoiceNode.fromJS(item));
-      }
-    }
-  }
-
-  static fromJS(data: any): ParameterChoiceNode {
-    data = typeof data === 'object' ? data : {};
-    let result = new ParameterChoiceNode();
-    result.init(data);
-    return result;
-  }
-
-  toJSON(data?: any) {
-    data = typeof data === 'object' ? data : {};
-    data["Label"] = this.label;
-    data["Code"] = this.code;
-    data["IsSelected"] = this.isSelected;
-    data["ShowInfographics"] = this.showInfographics;
-    data["InfographicsKey"] = this.infographicsKey;
-    data["Color"] = this.color;
-    if (Array.isArray(this.children)) {
-      data["Children"] = [];
-      for (let item of this.children)
-        data["Children"].push(item.toJSON());
-    }
-    return data;
-  }
-
-  clone(): ParameterChoiceNode {
-    const json = this.toJSON();
-    let result = new ParameterChoiceNode();
-    result.init(json);
-    return result;
   }
 }
